@@ -46,7 +46,11 @@ file(GLOB_RECURSE APP_CXX CONFIGURE_DEPENDS
 file(GLOB_RECURSE APP_C   CONFIGURE_DEPENDS
         "${CMAKE_SOURCE_DIR}/src/*.c")
 
-add_library(pros_indexer STATIC ${APP_CXX} ${APP_C})
+add_library(pros_indexer STATIC ${APP_CXX} ${APP_C}
+        include/config.h
+        src/config.cpp
+        include/syscontrol.h
+        src/syscontrol.cpp)
 # Don’t actually build it by default; this is here for code model only.
 set_target_properties(pros_indexer PROPERTIES EXCLUDE_FROM_ALL ON)
 

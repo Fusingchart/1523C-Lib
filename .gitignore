@@ -18,3 +18,5 @@ temp.errors
 
 # IDE
 .idea
+include/lib/tracking/mcl.hpp
+.idea/workspace.xml
