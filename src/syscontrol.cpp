@@ -44,9 +44,9 @@ void update_syscontrol() {
         third_stage_velocity = -200;
         break;
     case IntakeState::ScoreLow:
-        first_stage_velocity = -600;
-        second_stage_velocity = -200;
-        third_stage_velocity = -200;
+        first_stage_velocity = -0.5 * 600;
+        second_stage_velocity = -0.7 * 200;
+        third_stage_velocity = -0.5 * 200;
         break;
     case IntakeState::Idle:
         first_stage_velocity = 0;
