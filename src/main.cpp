@@ -104,8 +104,11 @@ void opcontrol() {
 			matchload_value = !matchload_value;
 		}
 
-		if (master.get_digital_new_press(HOOK_BUTTON)) {
-			hook_value = !hook_value;
+		for (const auto button : HOOK_BUTTONS) {
+			if (master.get_digital_new_press(button)) {
+				hook_value = !hook_value;
+				break;
+			}
 		}
 
 		update_syscontrol();

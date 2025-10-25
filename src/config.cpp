@@ -24,7 +24,11 @@ const pros::controller_digital_e_t SCORE_MID_BUTTON = pros::E_CONTROLLER_DIGITAL
 const pros::controller_digital_e_t SCORE_LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_R2;
 const pros::controller_digital_e_t BLOCKER_BUTTON = pros::E_CONTROLLER_DIGITAL_Y;
 const pros::controller_digital_e_t MATCHLOAD_BUTTON = pros::E_CONTROLLER_DIGITAL_DOWN;
-const pros::controller_digital_e_t HOOK_BUTTON = pros::E_CONTROLLER_DIGITAL_UP;
+const pros::controller_digital_e_t HOOK_BUTTONS[3] = {
+    pros::E_CONTROLLER_DIGITAL_UP,
+    pros::E_CONTROLLER_DIGITAL_LEFT,
+    pros::E_CONTROLLER_DIGITAL_RIGHT
+};
 
 pros::IMU imu(1);
 
@@ -54,4 +58,3 @@ pros::adi::DigitalOut hook_piston('c');
 extern int deadzone = 5;
 extern float drive_expo = 1.019;
 extern float turn_expo = 1;
-
