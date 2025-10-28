@@ -40,18 +40,28 @@ void update_syscontrol() {
         break;
     case IntakeState::ScoreMid:
         first_stage_velocity = 600;
-        second_stage_velocity = 200;
-        third_stage_velocity = -200;
+        second_stage_velocity = 0.5 * 200;
+        third_stage_velocity = -0.6 * 200;
         break;
     case IntakeState::ScoreLow:
         first_stage_velocity = -0.5 * 600;
-        second_stage_velocity = -0.7 * 200;
+        second_stage_velocity = -0.5 * 200;
         third_stage_velocity = -0.5 * 200;
         break;
     case IntakeState::Idle:
         first_stage_velocity = 0;
         second_stage_velocity = 0;
         third_stage_velocity = 0;
+        break;
+    case IntakeState::ScoreLowSlow1:
+        first_stage_velocity = -0.19 * 600;
+        second_stage_velocity = -0.3 * 200;
+        third_stage_velocity = -0.25 * 200;
+        break;
+    case IntakeState::ScoreLowSlow2:
+        first_stage_velocity = -0.15 * 600;
+        second_stage_velocity = -0.3 * 200;
+        third_stage_velocity = -0.25 * 200;
         break;
     }
 

@@ -6,6 +6,7 @@
 #define CONFIG_H
 
 #include "main.h"
+#include "lemlib/api.hpp"
 
 extern const int PROCESS_DELAY;
 
@@ -16,6 +17,8 @@ extern const pros::controller_digital_e_t SCORE_LOW_BUTTON;
 extern const pros::controller_digital_e_t BLOCKER_BUTTON;
 extern const pros::controller_digital_e_t MATCHLOAD_BUTTON;
 extern const pros::controller_digital_e_t HOOK_BUTTONS[3];
+
+extern const pros::controller_digital_e_t AUTO_SCORE_LOW_BUTTON;
 
 extern pros::IMU imu;
 
@@ -42,8 +45,16 @@ extern pros::adi::DigitalOut blocker_piston;
 extern pros::adi::DigitalOut matchload_piston;
 extern pros::adi::DigitalOut hook_piston;
 
-extern int deadzone;
-extern float drive_expo;
-extern float turn_expo;
+extern lemlib::Drivetrain drivetrain;
+
+extern lemlib::OdomSensors sensors;
+
+extern lemlib::ControllerSettings lateral_controller;
+extern lemlib::ControllerSettings angular_controller;
+
+extern lemlib::ExpoDriveCurve throttle_curve;
+extern lemlib::ExpoDriveCurve steer_curve;
+
+extern lemlib::Chassis chassis;
 
 #endif //CONFIG_H
