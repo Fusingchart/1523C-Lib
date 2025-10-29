@@ -9,9 +9,6 @@
 
 enum class IntakeState {
     Intake, ScoreLong, ScoreMid, ScoreLow, Idle, Custom,
-    ScoreLowSlow1, ScoreLowSlow2,
-    ScoreMidSlow,
-    ScoreLongSlow
 };
 
 extern IntakeState intake_state;
@@ -29,6 +26,9 @@ extern const int blocker_toggle_cooldown_duration;
 extern int first_stage_velocity;
 extern int second_stage_velocity;
 extern int third_stage_velocity;
+
+void set_intake_velocity_frac(float first, float second, float third);
+void set_intake_velocity(int first, int second, int third);
 
 void init_syscontrol();
 

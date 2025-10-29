@@ -23,57 +23,37 @@ int third_stage_velocity = 0;
 void init_syscontrol() {
 }
 
+void set_intake_velocity_frac(const float first, const float second, const float third) {
+    first_stage_velocity = static_cast<int>(first * 600);
+    second_stage_velocity = static_cast<int>(second * 200);
+    third_stage_velocity = static_cast<int>(third * 200);
+}
+
+void set_intake_velocity(const int first, const int second, const int third) {
+    first_stage_velocity = first;
+    second_stage_velocity = second;
+    third_stage_velocity = third;
+}
+
 void update_syscontrol() {
     switch (intake_state) {
     case IntakeState::Intake:
-        first_stage_velocity = 600;
-        second_stage_velocity = 200;
-        third_stage_velocity = 200;
+        set_intake_velocity_frac(1, 1, 1);
         auto_blocker_value = true;
         break;
     case IntakeState::ScoreLong:
-        first_stage_velocity = 600;
-        second_stage_velocity = 200;
-        third_stage_velocity = 200;
-        auto_blocker_value = false;
-        blocker_value = false;
-        break;
-    case IntakeState::ScoreLongSlow:
-        first_stage_velocity = 600;
-        second_stage_velocity = 200;
-        third_stage_velocity = 0.2 * 200;
+        set_intake_velocity_frac(1, 1, 1);
         auto_blocker_value = false;
         blocker_value = false;
         break;
     case IntakeState::ScoreMid:
-        first_stage_velocity = 600;
-        second_stage_velocity = 0.5 * 200;
-        third_stage_velocity = -0.6 * 200;
-        break;
-    case IntakeState::ScoreMidSlow:
-        first_stage_velocity = 600;
-        second_stage_velocity = 0.5 * 200;
-        third_stage_velocity = -0.3 * 200;
+        set_intake_velocity_frac(1, -0.7, -0.5);
         break;
     case IntakeState::ScoreLow:
-        first_stage_velocity = -0.5 * 600;
-        second_stage_velocity = -0.5 * 200;
-        third_stage_velocity = -0.5 * 200;
+        set_intake_velocity_frac(-0.5, -0.7, -0.5);
         break;
     case IntakeState::Idle:
-        first_stage_velocity = 0;
-        second_stage_velocity = 0;
-        third_stage_velocity = 0;
-        break;
-    case IntakeState::ScoreLowSlow1:
-        first_stage_velocity = -0.19 * 600;
-        second_stage_velocity = -0.3 * 200;
-        third_stage_velocity = -0.25 * 200;
-        break;
-    case IntakeState::ScoreLowSlow2:
-        first_stage_velocity = -0.15 * 600;
-        second_stage_velocity = -0.3 * 200;
-        third_stage_velocity = -0.25 * 200;
+        set_intake_velocity_frac(0, 0, 0);
         break;
     case IntakeState::Custom:
         break;

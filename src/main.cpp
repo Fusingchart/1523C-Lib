@@ -158,12 +158,13 @@ void opcontrol() {
                 pros::delay(250);
                 chassis.arcade(0, 0);
 
-                intake_state = IntakeState::ScoreLowSlow1;
+                intake_state = IntakeState::Custom;
+                set_intake_velocity_frac(-0.19, -0.3, -0.25);
                 while (!master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
                     pros::delay(PROCESS_DELAY);
                 }
 
-                intake_state = IntakeState::ScoreLowSlow2;
+                set_intake_velocity_frac(-0.15, -0.3, -0.25);
                 while (!master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
                     pros::delay(PROCESS_DELAY);
                 }
