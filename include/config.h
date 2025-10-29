@@ -6,6 +6,7 @@
 #define CONFIG_H
 
 #include "main.h"
+#include "lib/data/data.h"
 #include "lemlib/api.hpp"
 
 extern const int PROCESS_DELAY;
@@ -37,6 +38,10 @@ extern pros::MotorGroup right_motor_group;
 extern pros::Distance front_dist_sensor;
 extern pros::Distance left_dist_sensor;
 extern pros::Distance right_dist_sensor;
+
+extern Point front_dist_sensor_offset;
+extern Point left_dist_sensor_offset;
+extern Point right_dist_sensor_offset;
 
 extern pros::Motor first_stage_motor;
 extern pros::Motor second_stage_motor;

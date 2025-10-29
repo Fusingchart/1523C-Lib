@@ -50,6 +50,10 @@ pros::Distance front_dist_sensor(19);
 pros::Distance left_dist_sensor(20);
 pros::Distance right_dist_sensor(17);
 
+Point front_dist_sensor_offset(4.5, -1.55);
+Point left_dist_sensor_offset(-4.25, 3.25);
+Point right_dist_sensor_offset(4.25, 3.25);
+
 pros::Motor first_stage_motor(-15);
 pros::Motor second_stage_motor(18);
 pros::Motor third_stage_motor(-11);
