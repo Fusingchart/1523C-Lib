@@ -30,7 +30,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/syscontrol.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/syscontrol.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.pros" beforeDir="false" afterPath="$PROJECT_DIR$/project.pros" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/syscontrol.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/syscontrol.cpp" afterDir="false" />
@@ -119,7 +118,7 @@
       <workItem from="1759982249147" duration="2943000" />
       <workItem from="1761362866582" duration="6072000" />
       <workItem from="1761425990598" duration="6395000" />
-      <workItem from="1761606491916" duration="7679000" />
+      <workItem from="1761606491916" duration="10606000" />
     </task>
     <servers />
   </component>

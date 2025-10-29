@@ -19,6 +19,7 @@ extern const pros::controller_digital_e_t MATCHLOAD_BUTTON;
 extern const pros::controller_digital_e_t HOOK_BUTTONS[3];
 
 extern const pros::controller_digital_e_t AUTO_SCORE_LOW_BUTTON;
+extern const pros::controller_digital_e_t AUTO_SCORE_MID_BUTTON;
 
 extern pros::IMU imu;
 

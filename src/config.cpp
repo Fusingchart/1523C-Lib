@@ -30,7 +30,8 @@ const pros::controller_digital_e_t HOOK_BUTTONS[3] = {
     pros::E_CONTROLLER_DIGITAL_RIGHT
 };
 
-const pros::controller_digital_e_t AUTO_SCORE_LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_X;;
+const pros::controller_digital_e_t AUTO_SCORE_LOW_BUTTON = pros::E_CONTROLLER_DIGITAL_X;
+const pros::controller_digital_e_t AUTO_SCORE_MID_BUTTON = pros::E_CONTROLLER_DIGITAL_B;
 
 pros::IMU imu(1);
 

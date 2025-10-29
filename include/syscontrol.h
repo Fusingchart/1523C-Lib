@@ -8,8 +8,10 @@
 #include "config.h"
 
 enum class IntakeState {
-    Intake, ScoreLong, ScoreMid, ScoreLow, Idle,
-    ScoreLowSlow1, ScoreLowSlow2
+    Intake, ScoreLong, ScoreMid, ScoreLow, Idle, Custom,
+    ScoreLowSlow1, ScoreLowSlow2,
+    ScoreMidSlow,
+    ScoreLongSlow
 };
 
 extern IntakeState intake_state;

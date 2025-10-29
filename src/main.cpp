@@ -73,7 +73,7 @@ void autonomous() {
 
 bool block_driver_movement = false;
 bool block_driver_intake = false;
-bool auto_scoring_low = false;
+bool auto_scoring = false;
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -125,10 +125,33 @@ void opcontrol() {
             }
         }
 
-        if (!auto_scoring_low && master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
+        if (!auto_scoring && master.get_digital_new_press(AUTO_SCORE_MID_BUTTON)) {
             block_driver_movement = true;
             block_driver_intake = true;
-            auto_scoring_low = true;
+            auto_scoring = true;
+            pros::Task([&master] {
+                chassis.cancelAllMotions();
+                chassis.arcade(19, 0);
+                pros::delay(300);
+                chassis.arcade(0, 0);
+
+                intake_state = IntakeState::ScoreLong;
+                pros::delay(150);
+
+                intake_state = IntakeState::ScoreMid;
+                while (!master.get_digital_new_press(AUTO_SCORE_MID_BUTTON)) {
+                    pros::delay(PROCESS_DELAY);
+                }
+
+                auto_scoring = false;
+                block_driver_movement = false;
+                block_driver_intake = false;
+            });
+        }
+        if (!auto_scoring && master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
+            block_driver_movement = true;
+            block_driver_intake = true;
+            auto_scoring = true;
             pros::Task([&master] {
                 chassis.cancelAllMotions();
                 chassis.arcade(-28, 0);
@@ -149,11 +172,12 @@ void opcontrol() {
                 pros::delay(250);
                 chassis.arcade(0, 0);
 
-                auto_scoring_low = false;
+                auto_scoring = false;
                 block_driver_movement = false;
                 block_driver_intake = false;
             });
         }
+
 
         update_syscontrol();
 

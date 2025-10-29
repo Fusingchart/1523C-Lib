@@ -38,10 +38,22 @@ void update_syscontrol() {
         auto_blocker_value = false;
         blocker_value = false;
         break;
+    case IntakeState::ScoreLongSlow:
+        first_stage_velocity = 600;
+        second_stage_velocity = 200;
+        third_stage_velocity = 0.2 * 200;
+        auto_blocker_value = false;
+        blocker_value = false;
+        break;
     case IntakeState::ScoreMid:
         first_stage_velocity = 600;
         second_stage_velocity = 0.5 * 200;
         third_stage_velocity = -0.6 * 200;
+        break;
+    case IntakeState::ScoreMidSlow:
+        first_stage_velocity = 600;
+        second_stage_velocity = 0.5 * 200;
+        third_stage_velocity = -0.3 * 200;
         break;
     case IntakeState::ScoreLow:
         first_stage_velocity = -0.5 * 600;
@@ -62,6 +74,8 @@ void update_syscontrol() {
         first_stage_velocity = -0.15 * 600;
         second_stage_velocity = -0.3 * 200;
         third_stage_velocity = -0.25 * 200;
+        break;
+    case IntakeState::Custom:
         break;
     }
 
