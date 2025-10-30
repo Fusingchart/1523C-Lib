@@ -35,16 +35,16 @@ const pros::controller_digital_e_t AUTO_SCORE_MID_BUTTON = pros::E_CONTROLLER_DI
 
 pros::IMU imu(1);
 
-pros::Motor front_left_motor(5);
-pros::Motor mid_left_motor(6);
-pros::Motor back_left_motor(-7);
+pros::Motor front_right_motor(5);
+pros::Motor mid_right_motor(6);
+pros::Motor back_right_motor(-7);
 
-pros::Motor front_right_motor(-2);
-pros::Motor mid_right_motor(3);
-pros::Motor back_right_motor(4);
+pros::Motor front_left_motor(-2);
+pros::Motor mid_left_motor(3);
+pros::Motor back_left_motor(4);
 
-pros::MotorGroup left_motor_group({5, -7, 6});
-pros::MotorGroup right_motor_group({-2, 3, -4});
+pros::MotorGroup right_motor_group({5, -7, 6});
+pros::MotorGroup left_motor_group({-2, 3, -4});
 
 pros::Distance front_dist_sensor(19);
 pros::Distance left_dist_sensor(20);
@@ -81,9 +81,9 @@ lemlib::OdomSensors sensors(
 
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(
-    10, // proportional gain (kP)
+    3.5, // proportional gain (kP)
     0, // integral gain (kI)
-    3, // derivative gain (kD)
+    40, // derivative gain (kD)
     3, // anti windup
     1, // small error range, in inches
     100, // small error range timeout, in milliseconds
@@ -94,9 +94,9 @@ lemlib::ControllerSettings lateral_controller(
 
 // angular PID controller
 lemlib::ControllerSettings angular_controller(
-    2, // proportional gain (kP)
+    1.5, // proportional gain (kP)
     0, // integral gain (kI)
-    10, // derivative gain (kD)
+    20, // derivative gain (kD)
     3, // anti windup
     1, // small error range, in degrees
     100, // small error range timeout, in milliseconds

@@ -87,8 +87,9 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    chassis.set_pose(0, 0, 0);
-    chassis.turn_to_heading(90, 500);
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 24, 3000, {.minSpeed = 127});
+    chassis.waitUntilDone();
 }
 
 bool block_driver_movement = false;
@@ -210,7 +211,7 @@ void opcontrol() {
         update_syscontrol();
 
         const int drive = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        const int turn = -master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        const int turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
         if (!block_driver_movement) chassis.arcade(drive, turn);
 
