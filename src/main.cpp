@@ -131,7 +131,9 @@ void opcontrol() {
             auto_scoring = true;
             pros::Task([&master] {
                 chassis.cancelAllMotions();
-                chassis.arcade(19, 0);
+                intake_state = IntakeState::Intake;
+
+                chassis.arcade(18, 0);
                 pros::delay(300);
                 chassis.arcade(0, 0);
 
@@ -154,23 +156,28 @@ void opcontrol() {
             auto_scoring = true;
             pros::Task([&master] {
                 chassis.cancelAllMotions();
-                chassis.arcade(-28, 0);
-                pros::delay(250);
+                chassis.arcade(-23, 0);
+                pros::delay(300);
                 chassis.arcade(0, 0);
 
                 intake_state = IntakeState::Custom;
                 set_intake_velocity_frac(-0.19, -0.3, -0.25);
                 while (!master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
+                    const int turn = -master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+                    chassis.arcade(0, turn);
                     pros::delay(PROCESS_DELAY);
                 }
 
                 set_intake_velocity_frac(-0.15, -0.3, -0.25);
                 while (!master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
+                    const int turn = -master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+                    chassis.arcade(0, turn);
                     pros::delay(PROCESS_DELAY);
                 }
 
-                chassis.arcade(10, 0);
-                pros::delay(250);
+                intake_state = IntakeState::Idle;
+                chassis.arcade(12, 0);
+                pros::delay(300);
                 chassis.arcade(0, 0);
 
                 auto_scoring = false;

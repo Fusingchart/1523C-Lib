@@ -47,10 +47,10 @@ void update_syscontrol() {
         blocker_value = false;
         break;
     case IntakeState::ScoreMid:
-        set_intake_velocity_frac(1, -0.7, -0.5);
+        set_intake_velocity_frac(1, 0.6, -0.4);
         break;
     case IntakeState::ScoreLow:
-        set_intake_velocity_frac(-0.5, -0.7, -0.5);
+        set_intake_velocity_frac(-0.5, -0.7, -0.4);
         break;
     case IntakeState::Idle:
         set_intake_velocity_frac(0, 0, 0);

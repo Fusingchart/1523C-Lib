@@ -50,7 +50,8 @@ add_library(pros_indexer STATIC ${APP_CXX} ${APP_C}
         include/config.h
         src/config.cpp
         include/syscontrol.h
-        src/syscontrol.cpp)
+        src/syscontrol.cpp
+        include/screen.h)
 # Don’t actually build it by default; this is here for code model only.
 set_target_properties(pros_indexer PROPERTIES EXCLUDE_FROM_ALL ON)
 
