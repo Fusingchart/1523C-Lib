@@ -3,6 +3,7 @@
 #include "config.h"
 
 #include "syscontrol.h"
+#include "distance-reset.h"
 
 #include "lib/utils.hpp"
 /**
