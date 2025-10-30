@@ -29,12 +29,30 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    pros::lcd::initialize();
-    pros::lcd::set_text(1, "Hello PROS User!");
+    pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
 
-    init_syscontrol();
+    // the default rate is 50. however, if you need to change the rate, you
+    // can do the following.
+    // lemlib::bufferedStdout().setRate(...);
+    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
 
-    pros::lcd::register_btn1_cb(on_center_button);
+    // for more information on how the formatting for the loggers
+    // works, refer to the fmtlib docs
+
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 }
 
 /**
@@ -69,6 +87,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+    chassis.set_pose(0, 0, 0);
+    chassis.turn_to_heading(90, 500);
 }
 
 bool block_driver_movement = false;
