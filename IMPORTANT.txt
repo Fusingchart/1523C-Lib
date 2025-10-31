@@ -1,0 +1,4 @@
+1. On the coordinate plane, a positive heading change is
+CLOCKWISE, NOT COUNTERCLOCKWISE
+
+2. In config, `front_dist1_sensor` should be on the LEFT of `front_dist2_sensor`
