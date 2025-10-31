@@ -106,7 +106,6 @@ function_start:
 }
 
 inline void match_load_reset(const uint32_t sample_time, const double heading_mod = 0, int8_t quadrant = -1) {
-
     const Dir dir = quadrant == 2 || quadrant == 4 ? Dir::Right : Dir::Left;
 
     printf("match load reset called\n");
@@ -147,7 +146,7 @@ inline void match_load_reset(const uint32_t sample_time, const double heading_mo
     double front_wall_dist = -1;
     std::atomic<bool> ready(false);
     pros::Task([&] {
-        front_wall_dist = find_dist(front_dist_sensor, front_dist_sensor_offset, rad, Dir::Front, sample_time);
+        front_wall_dist = find_dist(front_dist1_sensor, front_dist1_sensor_offset, rad, Dir::Front, sample_time);
         ready.store(true);
     });
     const double side_wall_dist = find_dist(side_dist_sensor, side_dist_sensor_offset, rad, dir, sample_time);
@@ -237,9 +236,61 @@ custom_quadrant: // Goto label if the user decided to use a custom quadrant
     x_pos += front_wall_dist * lemlib::sgn(x_pos) * -1;
     y_pos += side_wall_dist * lemlib::sgn(y_pos) * -1;
 
-    if (flips) x_pos*=-1;
-    if (flips) y_pos*=-1;
+    if (flips) x_pos *= -1;
+    if (flips) y_pos *= -1;
 
     // Correct the chassis pose.
     chassis.setPose(x_pos, y_pos, chassis.getPose().theta);
+}
+
+inline void heading_reset(const int32_t sample_time, const float closest_correct_heading) {
+    /*
+     * Alright so the general thought process for this is that if we have two
+     * rays of distance sensors pointing towards the wall, the distances will be
+     * different since are heading isn't completely straight. Now let's say ray
+     * A from our leftmost front facing distance sensor is length like 30 mm and
+     * ray B from our rightmost front facing distance sensor is length like 35
+     * mm.
+     *
+     * Call the point where ray A collides with the wall, and call this point
+     * P1. Now, on ray B call a point P2 where it is 30 mm (length of ray A)
+     * away from the location of the origin of ray B. So what we have now is a
+     * segment P1P2 that is parallel to the line formed by the origins of rays
+     * A and B. Also, notice how P1 is on the wall, so it forms the right
+     * triangle P1, P2, and one more point which is the 90 degree one.
+     *
+     * Anyways, counting similar triangles by heading we find that angle between
+     * segments P1P2 and P1 and P3, the third point of the triangle, is the
+     * deviation from the intended heading of the robot.
+     *
+     * We'll adjust this with some math using the param `closest_correct_heading
+     */
+
+    // Find the distance
+    double front_dist1 = -1;
+    std::atomic<bool> ready(false);
+    pros::Task([&] {
+        front_dist1 = sample_dist_sensor(front_dist1_sensor, sample_time);
+        ready.store(true);
+    });
+    const double front_dist2 = sample_dist_sensor(front_dist2_sensor, sample_time);
+
+    const double short_leg = std::abs(front_dist1 - front_dist2);
+
+    while (!ready.load()) {
+        pros::delay(10);
+    }
+
+    const double long_leg = std::abs(front_dist1_sensor_offset.x - front_dist2_sensor_offset.x);
+
+    const double heading_deviation = std::atan(short_leg / long_leg);
+
+    double heading;
+    if (front_dist1 >= front_dist2) {
+        heading = closest_correct_heading - heading_deviation;
+    } else {
+        heading = closest_correct_heading + heading_deviation;
+    }
+
+    chassis.setPose(chassis.getPose().x, chassis.getPose().y, heading);
 }

@@ -106,8 +106,8 @@ inline void main_screen_state() {
     pros::screen::print(pros::E_TEXT_SMALL, pad, pad + 30, "H: %f          ", chassis.getPose().theta); // x
 
     pros::screen::print(pros::E_TEXT_SMALL, pad, pad + 60, "fds: %f          ",
-                        front_dist_sensor.get_distance() / 25.4);
-    pros::screen::print(pros::E_TEXT_SMALL, pad + 80, pad + 60, "c: %d          ", front_dist_sensor.get_confidence());
+                        front_dist1_sensor.get_distance() / 25.4);
+    pros::screen::print(pros::E_TEXT_SMALL, pad + 80, pad + 60, "c: %d          ", front_dist1_sensor.get_confidence());
     pros::screen::print(pros::E_TEXT_SMALL, pad, pad + 75, "lds: %f          ", left_dist_sensor.get_distance() / 25.4);
     pros::screen::print(pros::E_TEXT_SMALL, pad + 80, pad + 75, "c: %d          ", left_dist_sensor.get_confidence());
     pros::screen::print(pros::E_TEXT_SMALL, pad, pad + 90, "rds: %f          ",

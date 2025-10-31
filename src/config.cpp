@@ -2,19 +2,17 @@
 // Created by Hanyu Zhang on 10/24/25.
 //
 
-#include "config.h"
-
 /*
- *blocker up auto
- *l1 intake blocker down
- *r1 score long block up
- *l2 mid
- *r2 low
- *y blocker down toggle
- *down arrow matchloader
- *up arrow hook
- *idle
- **/
+* =============================================================================
+*                                   IMPORTANT
+* =============================================================================
+*
+* Please check "IMPORTANT.txt" in the root of the project for config
+* requirements and other information.
+*
+*/
+
+#include "config.h"
 
 const int PROCESS_DELAY = 10;
 
@@ -46,11 +44,13 @@ pros::Motor back_left_motor(4);
 pros::MotorGroup right_motor_group({5, -7, 6});
 pros::MotorGroup left_motor_group({-2, 3, -4});
 
-pros::Distance front_dist_sensor(19);
+pros::Distance front_dist1_sensor(19);
+pros::Distance front_dist2_sensor(19);
 pros::Distance left_dist_sensor(20);
 pros::Distance right_dist_sensor(17);
 
-Point front_dist_sensor_offset(4.5, -1.55);
+Point front_dist1_sensor_offset(4.5, -1.55);
+Point front_dist2_sensor_offset(-4.5, -1.55);
 Point left_dist_sensor_offset(-4.25, 3.25);
 Point right_dist_sensor_offset(4.25, 3.25);
 

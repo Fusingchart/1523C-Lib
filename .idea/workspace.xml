@@ -27,8 +27,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7e9331b-5e76-447d-9ff3-8965d3428514" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/include/screen.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IMPORTANT.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/distance-reset.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/distance-reset.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/screen.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/screen.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,6 +126,7 @@
       <workItem from="1761606491916" duration="10606000" />
       <workItem from="1761752252791" duration="3804000" />
       <workItem from="1761795650537" duration="2026000" />
+      <workItem from="1761878187903" duration="2390000" />
     </task>
     <servers />
   </component>

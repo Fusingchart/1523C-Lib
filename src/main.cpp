@@ -1,3 +1,13 @@
+/*
+* =============================================================================
+*                                   IMPORTANT
+* =============================================================================
+*
+* Please check "IMPORTANT.txt" in the root of the project for config
+* requirements and other information.
+*
+*/
+
 #include "main.h"
 
 #include "config.h"

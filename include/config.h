@@ -2,6 +2,16 @@
 // Created by Hanyu Zhang on 10/24/25.
 //
 
+/*
+* =============================================================================
+*                                   IMPORTANT
+* =============================================================================
+*
+* Please check "IMPORTANT.txt" in the root of the project for config
+* requirements and other information.
+*
+*/
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -35,11 +45,13 @@ extern pros::Motor back_right_motor;
 extern pros::MotorGroup left_motor_group;
 extern pros::MotorGroup right_motor_group;
 
-extern pros::Distance front_dist_sensor;
+extern pros::Distance front_dist1_sensor;
+extern pros::Distance front_dist2_sensor;
 extern pros::Distance left_dist_sensor;
 extern pros::Distance right_dist_sensor;
 
-extern Point front_dist_sensor_offset;
+extern Point front_dist1_sensor_offset;
+extern Point front_dist2_sensor_offset;
 extern Point left_dist_sensor_offset;
 extern Point right_dist_sensor_offset;
 
