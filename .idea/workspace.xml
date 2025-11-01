@@ -28,8 +28,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a7e9331b-5e76-447d-9ff3-8965d3428514" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/distance-reset.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/distance-reset.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +122,7 @@
       <workItem from="1761752252791" duration="3804000" />
       <workItem from="1761795650537" duration="2026000" />
       <workItem from="1761878187903" duration="3154000" />
-      <workItem from="1762032972628" duration="2012000" />
+      <workItem from="1762032972628" duration="5666000" />
     </task>
     <servers />
   </component>

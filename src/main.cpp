@@ -33,6 +33,11 @@ void on_center_button() {
     }
 }
 
+// Skills run specific initialization
+void skills_init() {
+    hook_value = true;
+}
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -42,6 +47,8 @@ void on_center_button() {
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
+
+    skills_init();
 
     // the default rate is 50. however, if you need to change the rate, you
     // can do the following.
@@ -163,7 +170,8 @@ void opcontrol() {
             auto_scoring = true;
             pros::Task([&master] {
                 chassis.cancelAllMotions();
-                intake_state = IntakeState::Intake;
+                intake_state = IntakeState::Idle;
+                blocker_value = false;
 
                 chassis.arcade(18, 0);
                 pros::delay(300);
@@ -172,7 +180,8 @@ void opcontrol() {
                 intake_state = IntakeState::ScoreLong;
                 pros::delay(150);
 
-                intake_state = IntakeState::ScoreMid;
+                intake_state = IntakeState::Custom;
+                set_intake_velocity_frac(0.40, 0.45, -0.3);
                 while (!master.get_digital_new_press(AUTO_SCORE_MID_BUTTON)) {
                     pros::delay(PROCESS_DELAY);
                 }
@@ -208,7 +217,7 @@ void opcontrol() {
                 }
 
                 intake_state = IntakeState::Idle;
-                chassis.arcade(12, 0);
+                chassis.arcade(8, 0);
                 pros::delay(300);
                 chassis.arcade(0, 0);
 
