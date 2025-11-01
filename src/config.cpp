@@ -44,13 +44,13 @@ pros::Motor back_left_motor(4);
 pros::MotorGroup right_motor_group({5, -7, 6});
 pros::MotorGroup left_motor_group({-2, 3, -4});
 
-pros::Distance front_dist1_sensor(19);
+pros::Distance front_dist1_sensor(10);
 pros::Distance front_dist2_sensor(19);
 pros::Distance left_dist_sensor(20);
 pros::Distance right_dist_sensor(17);
 
-Point front_dist1_sensor_offset(4.5, -1.55);
-Point front_dist2_sensor_offset(-4.5, -1.55);
+Point front_dist1_sensor_offset(-3.85, 6.5799212598);
+Point front_dist2_sensor_offset(4.5, -1.525);
 Point left_dist_sensor_offset(-4.25, 3.25);
 Point right_dist_sensor_offset(4.25, 3.25);
 

@@ -273,24 +273,37 @@ inline void heading_reset(const int32_t sample_time, const float closest_correct
         front_dist1 = sample_dist_sensor(front_dist1_sensor, sample_time);
         ready.store(true);
     });
-    const double front_dist2 = sample_dist_sensor(front_dist2_sensor, sample_time);
+    double front_dist2 = sample_dist_sensor(front_dist2_sensor, sample_time);
 
-    const double short_leg = std::abs(front_dist1 - front_dist2);
+    const double offset_diff = std::abs(front_dist1_sensor_offset.y - front_dist2_sensor_offset.y);
+    if (
+        offset_diff > 0) {
+        front_dist2 -= offset_diff;
+    }
+    else {
+        front_dist1 -= offset_diff;
+    }
 
     while (!ready.load()) {
         pros::delay(10);
     }
 
+    const double short_leg = std::abs(std::abs(front_dist1) - std::abs(front_dist2));
+
     const double long_leg = std::abs(front_dist1_sensor_offset.x - front_dist2_sensor_offset.x);
 
-    const double heading_deviation = std::atan(short_leg / long_leg);
+    const double heading_deviation = std::atan(short_leg / long_leg) * 180 / M_PI;
 
     double heading;
     if (front_dist1 >= front_dist2) {
         heading = closest_correct_heading - heading_deviation;
-    } else {
+    }
+    else {
         heading = closest_correct_heading + heading_deviation;
     }
+
+    std::cout << "offset diff: " << offset_diff << "\ndist1: " << front_dist1 << "\ndist2: " << front_dist2 <<
+        "\nshort leg: " << short_leg << "\nlong_leg " << long_leg << "\n";
 
     chassis.setPose(chassis.getPose().x, chassis.getPose().y, heading);
 }
