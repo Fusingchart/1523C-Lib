@@ -67,7 +67,7 @@ lemlib::Drivetrain drivetrain(
     &right_motor_group, // right motor group
     10, // 10 inch track width
     lemlib::Omniwheel::NEW_4, // using new 4" omnis
-    400, // drivetrain rpm is 360
+    343, // drivetrain rpm is 360
     2 // horizontal drift is 2 (for now)
 );
 
@@ -81,11 +81,11 @@ lemlib::OdomSensors sensors(
 
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(
-    3.5, // proportional gain (kP)
+    5, // proportional gain (kP)
     0, // integral gain (kI)
-    40, // derivative gain (kD)
+    0, // derivative gain (kD)
     3, // anti windup
-    1, // small error range, in inches
+    0.5, // small error range, in inches
     100, // small error range timeout, in milliseconds
     3, // large error range, in inches
     500, // large error range timeout, in milliseconds
@@ -94,11 +94,11 @@ lemlib::ControllerSettings lateral_controller(
 
 // angular PID controller
 lemlib::ControllerSettings angular_controller(
-    1.5, // proportional gain (kP)
-    0, // integral gain (kI)
-    20, // derivative gain (kD)
-    3, // anti windup
-    1, // small error range, in degrees
+    0.9, // proportional gain (kP)
+    0.03, // integral gain (kI)
+    1, // derivative gain (kD)
+    1, // anti windup
+    0.5, // small error range, in degrees
     100, // small error range timeout, in milliseconds
     3, // large error range, in degrees
     500, // large error range timeout, in milliseconds

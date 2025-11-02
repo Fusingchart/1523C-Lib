@@ -23,6 +23,26 @@ int third_stage_velocity = 0;
 void init_syscontrol() {
 }
 
+JamState::JamState(pros::Motor* target, const uint32_t jam_tolerance, const uint32_t unjam_duration)
+    : target(target), jam_tolerance(jam_tolerance), unjam_duration(unjam_duration) {
+    jam_start = pros::millis();
+}
+
+void JamState::update() {
+    if (target->get_target_velocity() == 0 || target->get_actual_velocity() != 0) {
+        jam_start = pros::millis();
+        std::cout << "not jamming\n";
+    }
+
+    if (pros::millis() - jam_start > jam_tolerance) {
+        std::cout << "starting unjam\n";
+
+        unjam_end = pros::millis() + unjam_duration;
+    }
+}
+
+JamState second_state_jam_state(&second_stage_motor, 150, 50);
+
 void set_intake_velocity_frac(const float first, const float second, const float third) {
     first_stage_velocity = static_cast<int>(first * 600);
     second_stage_velocity = static_cast<int>(second * 200);
@@ -59,6 +79,12 @@ void update_syscontrol() {
         break;
     }
 
+    second_state_jam_state.update();
+
+    if (second_state_jam_state.unjam_end > pros::millis()) {
+        second_stage_velocity *= -127;
+    }
+
     (void)first_stage_motor.move_velocity(first_stage_velocity);
     (void)second_stage_motor.move_velocity(second_stage_velocity);
     (void)third_stage_motor.move_velocity(third_stage_velocity);
@@ -70,7 +96,8 @@ void update_syscontrol() {
     const bool blocker_candidate_value = auto_blocker_value || blocker_value;
     if (blocker_toggle_cooldown <= 0) {
         blocker_final_value = blocker_candidate_value;
-    } else {
+    }
+    else {
         blocker_toggle_cooldown -= PROCESS_DELAY;
     }
 

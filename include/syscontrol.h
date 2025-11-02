@@ -27,6 +27,22 @@ extern int first_stage_velocity;
 extern int second_stage_velocity;
 extern int third_stage_velocity;
 
+struct JamState {
+    pros::Motor* target;
+
+    const uint32_t jam_tolerance;
+    const uint32_t unjam_duration;
+
+    uint32_t jam_start = 0;
+    uint32_t unjam_end = 0;
+
+    JamState(pros::Motor* target, uint32_t jam_tolerance, uint32_t unjam_duration);
+
+    void update();
+};
+
+extern JamState second_state_jam_state;
+
 void set_intake_velocity_frac(float first, float second, float third);
 void set_intake_velocity(int first, int second, int third);
 

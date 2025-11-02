@@ -16,6 +16,9 @@
 #include "distance-reset.h"
 
 #include "lib/utils.hpp"
+
+pros::Controller master(pros::E_CONTROLLER_MASTER);
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -67,6 +70,7 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            master.print(0, 0, "%f         ", chassis.getPose().theta);
             // delay to save resources
             pros::delay(50);
         }
@@ -105,9 +109,25 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 24, 3000, {.minSpeed = 127});
-    chassis.waitUntilDone();
+    // chassis.setPose(0, 0, 0);
+    //
+    // chassis.turnToHeading(90, 3000);
+    // chassis.turnToHeading(0, 3000);
+    //
+   chassis. setPose(-51.5, 16, 90);
+
+    intake_state = IntakeState::Intake;
+
+    chassis.moveToPoint(-36, 15, 1000, {.minSpeed = 64, .earlyExitRange = 3});
+    chassis.moveToPoint(-22, 21.5, 1000, {.minSpeed = 64, .earlyExitRange = 3});
+    chassis.moveToPose(-6.5, 38.5, 0, 1500, {.minSpeed = 32, .earlyExitRange = 1});
+    matchload_value = true;
+    chassis.arcade(32, 0);
+    pros::delay(300);
+    chassis.moveToPoint(-22.5, 35, 1000, {.forwards = false, .minSpeed = 16, .earlyExitRange = 3});
+    chassis.moveToPoint(-40, 48, 1000, {.forwards = false});
+    chassis.turnToHeading(-90, 800);
+
 }
 
 bool block_driver_movement = false;
@@ -128,8 +148,6 @@ bool auto_scoring = false;
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    pros::Controller master(pros::E_CONTROLLER_MASTER);
-
     while (true) {
         if (block_driver_intake) goto no_intake;
         if (master.get_digital(INTAKE_BUTTON)) {
@@ -168,7 +186,7 @@ void opcontrol() {
             block_driver_movement = true;
             block_driver_intake = true;
             auto_scoring = true;
-            pros::Task([&master] {
+            pros::Task([] {
                 chassis.cancelAllMotions();
                 intake_state = IntakeState::Idle;
                 blocker_value = false;
@@ -195,7 +213,7 @@ void opcontrol() {
             block_driver_movement = true;
             block_driver_intake = true;
             auto_scoring = true;
-            pros::Task([&master] {
+            pros::Task([] {
                 chassis.cancelAllMotions();
                 chassis.arcade(-23, 0);
                 pros::delay(300);
@@ -209,7 +227,7 @@ void opcontrol() {
                     pros::delay(PROCESS_DELAY);
                 }
 
-                set_intake_velocity_frac(-0.15, -0.3, -0.25);
+                set_intake_velocity_frac(-0.13, -0.3, -0.25);
                 while (!master.get_digital_new_press(AUTO_SCORE_LOW_BUTTON)) {
                     const int turn = -master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
                     chassis.arcade(0, turn);
@@ -217,7 +235,7 @@ void opcontrol() {
                 }
 
                 intake_state = IntakeState::Idle;
-                chassis.arcade(8, 0);
+                chassis.arcade(6.7, 0);
                 pros::delay(300);
                 chassis.arcade(0, 0);
 
@@ -226,9 +244,6 @@ void opcontrol() {
                 block_driver_intake = false;
             });
         }
-
-
-        update_syscontrol();
 
         const int drive = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         const int turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
