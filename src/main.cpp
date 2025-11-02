@@ -17,7 +17,14 @@
 
 #include "lib/utils.hpp"
 
+#include "data.h"
+
+#include "mcl.h"
+
 pros::Controller master(pros::E_CONTROLLER_MASTER);
+
+int drive = 0;
+int turn = 0;
 
 /**
  * A callback function for LLEMU's center button.
@@ -52,6 +59,53 @@ void initialize() {
     chassis.calibrate(); // calibrate sensors
 
     skills_init();
+
+    pros::Task updateTask([]() {
+        constexpr float hfs = 144 / 2;
+
+        obstacles.push_back({{-hfs, -hfs}, {hfs, -hfs}});
+        obstacles.push_back({{hfs, -hfs}, {hfs, hfs}});
+        obstacles.push_back({{hfs, hfs}, {-hfs, hfs}});
+        obstacles.push_back({{-hfs, -hfs}, {-hfs, hfs}});
+
+        obstacles.push_back({{-24, 50}, {-21.5, 47}});
+        obstacles.push_back({{-24, 44}, {-21.5, 47}});
+
+        obstacles.push_back({{24, 50}, {21.5, 47}});
+        obstacles.push_back({{24, 44}, {21.5, 47}});
+
+        obstacles.push_back({{-24, -50}, {-21.5, -47}});
+        obstacles.push_back({{-24, -44}, {-21.5, -47}});
+
+        obstacles.push_back({{24, -50}, {21.5, -47}});
+        obstacles.push_back({{24, -44}, {21.5, -47}});
+        std::cout << "obstacle init\n";
+        MCL mcl{};
+        std::cout << "mvl init\n";
+        std::cout << "mcl particle count " << mcl.getParticles().size() << std::endl;
+
+        mcl.distance_sensors.emplace_back(&front_dist2_sensor, Pose::migrate(front_dist2_sensor_offset));
+        mcl.distance_sensors.emplace_back(&left_dist_sensor, Pose::migrate(left_dist_sensor_offset));
+        mcl.distance_sensors.emplace_back(&right_dist_sensor, Pose::migrate(right_dist_sensor_offset));
+        std::cout << "mcl dist sensors\n";
+
+        mcl.initializePose({0, 0, 0});
+        std::cout << "mcl init pose\n";
+        std::cout << "mcl particle count " << mcl.getParticles().size() << std::endl;
+        std::cout << "mcl predict start\n";
+        std::cout << "mcl particle count " << mcl.getParticles().size() << std::endl;
+
+        int32_t p_end = pros::millis();
+        while (true) {
+            const uint32_t end = p_end + PROCESS_DELAY;
+            mcl.predict(drive, turn);
+            mcl.measure();
+            const Pose best_point = mcl.getParticles().at(0).pose;
+            chassis.setPose(best_point.x_, best_point.y_, best_point.h_);
+            if (pros::millis() < end) pros::delay(end - pros::millis());
+            else std::cout << "behind by " << pros::millis() - end << "ms\n";
+        }
+    });
 
     // the default rate is 50. however, if you need to change the rate, you
     // can do the following.
@@ -114,7 +168,7 @@ void autonomous() {
     // chassis.turnToHeading(90, 3000);
     // chassis.turnToHeading(0, 3000);
     //
-   chassis. setPose(-51.5, 16, 90);
+    chassis.setPose(-51.5, 16, 90);
 
     intake_state = IntakeState::Intake;
 
@@ -127,7 +181,6 @@ void autonomous() {
     chassis.moveToPoint(-22.5, 35, 1000, {.forwards = false, .minSpeed = 16, .earlyExitRange = 3});
     chassis.moveToPoint(-40, 48, 1000, {.forwards = false});
     chassis.turnToHeading(-90, 800);
-
 }
 
 bool block_driver_movement = false;
@@ -245,8 +298,8 @@ void opcontrol() {
             });
         }
 
-        const int drive = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        const int turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        drive = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
         if (!block_driver_movement) chassis.arcade(drive, turn);
 

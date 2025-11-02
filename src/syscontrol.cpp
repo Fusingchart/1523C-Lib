@@ -29,7 +29,8 @@ JamState::JamState(pros::Motor* target, const uint32_t jam_tolerance, const uint
 }
 
 void JamState::update() {
-    if (target->get_target_velocity() == 0 || target->get_actual_velocity() != 0) {
+    if (target->get_target_velocity() == 0 ||
+        target->get_actual_velocity() != 0) {
         jam_start = pros::millis();
         std::cout << "not jamming\n";
     }
